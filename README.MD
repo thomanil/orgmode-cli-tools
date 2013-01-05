@@ -38,6 +38,10 @@ Usage
 Examples
 ========
 
+Generate a html export of and orgfile and open it in firefox in one step:
+
+`org2html test.org && firefox test.html &!`
+
 Generate a presentation and open it in Firefox in one step:
 
 `org2revealjs test.org && firefox generated_slides/index.html &!`
