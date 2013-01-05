@@ -21,7 +21,7 @@ These tools depend on Ruby and Emacs 24.x.
 Install
 =======
 
-`gem install org2html`
+`gem install orgmode-cli-tools`
 
 TODO describe emacs deps
 
