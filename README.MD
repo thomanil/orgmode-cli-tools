@@ -21,10 +21,9 @@ These tools depend on Ruby and Emacs 24.x.
 Install
 =======
 
-# 1. install gem
-# 2. check emacs dependencies
-#    Your emacs has to support orgmode html export with htmlize
+`gem install org2html`
 
+TODO describe emacs deps
 
 
 Usage
