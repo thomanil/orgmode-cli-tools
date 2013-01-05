@@ -39,7 +39,7 @@ if ARGV.size == 0 || ARGV.size > 2
 end
 
 if !File.exists?(ARGV[0])
-  puts "No such source html file: #{src_file}"
+  puts "No such source org-file: #{ARGV[0]}"
 end
 
 src_file = ARGV[0]

@@ -93,27 +93,24 @@ MARKUP
 end
 
 def convert(orgfile_path)
-  # TODO title from filename or param?
-  title = "SLIDES, YO"
-
-  # TODO use org2hml to convert from org to html body used below
-  htmlfile_path = orgfile_path
+  title = "" # TODO derive title from filename and|or org contents
+  puts `org2html #{orgfile_path}`
+  htmlfile_path = orgfile_path.gsub(".org", ".html")
   body = body(htmlfile_path)
   body = transform_divs_into_sections(body)
   body = slide_layout(title, body)
 
   # TODO use path of this file to find dir of template dir where gem is actually located
-  # TODO change name of generated slides based on original org base filename
-  `cp -r templates/reveal_js_template FILENAME_slides`
-  File.open("FILENAME_slides/index.html", 'w') { |file| file.write(body) }
+
+  gem_root_path = File.expand_path(File.dirname(__FILE__))+"/.."
+  `cp -r #{gem_root_path}/templates/reveal_js_template generated_slides`
+  File.open("generated_slides/index.html", 'w') { |file| file.write(body) }
+  `rm #{htmlfile_path}`
 end
 
 if ARGV.length != 1
   puts "Usage: org2revealjs ORG_FILE_PATH"
   exit 1
 end
-
-# TODO check that orgfile exists
-# TODO implement same params as org2html
 
 convert(ARGV[0])

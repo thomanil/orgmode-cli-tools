@@ -35,6 +35,14 @@ Usage
 `org2revealjs ORG_FILE_PATH`
 
 
+Examples
+========
+
+Generate a presentation and open it in Firefox in one step:
+
+`org2revealjs test.org && firefox generated_slides/index.html &!`
+
+
 FAQ
 ====
 
