@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+
+# TODO add CLI flags to toggle:
+# t, --include-toc
+# s, --include-section-numbering
+# h N, --headline-levels=N
+# v, --version
+
+# TODO check what fresh user needs to install to make it work from
+# cold start in bare emacs 24 install
+
+def elisp_code(src_dir)
+  <<ELISP
+(package-initialize)
+(require 'org-publish)
+(require 'htmlize)
+
+(setq org-export-htmlize-output-type 'css)
+
+(org-publish '("org2html" :base-directory "#{src_dir}"
+	       :publishing-function org-publish-org-to-html
+	       :publishing-directory "/tmp"
+	       :base-extension "org"
+               :html-extension "html"
+	       :recursive t
+	       :html-preamble nil
+	       :html-postamble nil
+	       :table-of-contents nil
+	       :headline-levels 3
+	       :htmlized-source t
+	       :section-numbers nil
+	       :body-only nil) nil)
+ELISP
+end
+
+if ARGV.size == 0 || ARGV.size > 2
+  puts "Usage: org2html ORG_FILE_PATH [HTML_FILE_PATH]"
+  exit 1
+end
+
+if !File.exists?(ARGV[0])
+  puts "No such source html file: #{src_file}"
+end
+
+src_file = ARGV[0]
+dest_file = ARGV[1] || src_file.gsub(".org", ".html")
+
+src_dir = File.dirname(File.expand_path(src_file))
+dest_dir = File.dirname(File.expand_path(dest_file))
+
+src_basefilename = File.basename(src_file)
+src_generated_name = src_basefilename.gsub(".org", ".html")
+dest_filepath = File.expand_path(File.basename(dest_file))
+
+require 'tempfile' # use tempfile to make this thread-safe
+elisp_file = Tempfile.new('foo')
+begin
+  elisp_file.write(elisp_code(src_dir))
+  elisp_file.close
+  `rm -rf ~/.org-timestamps/org2html.cache`
+  `emacs --batch -l #{elisp_file.path}`
+  `cp /tmp/#{src_generated_name} #{dest_filepath}`
+ensure
+  elisp_file.close
+  elisp_file.unlink # deletes the temp file
+end

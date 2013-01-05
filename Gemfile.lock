@@ -1,0 +1,29 @@
+PATH
+  remote: .
+  specs:
+    just_paginate (0.0.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activesupport (3.2.8)
+      i18n (~> 0.6)
+      multi_json (~> 1.0)
+    i18n (0.6.1)
+    minitest (4.0.0)
+    multi_json (1.3.6)
+    shoulda (3.1.1)
+      shoulda-context (~> 1.0)
+      shoulda-matchers (~> 1.2)
+    shoulda-context (1.0.0)
+    shoulda-matchers (1.3.0)
+      activesupport (>= 3.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  just_paginate!
+  minitest
+  shoulda
+  shoulda-context
