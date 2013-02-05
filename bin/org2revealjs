@@ -19,8 +19,12 @@ def transform_divs_into_sections(html_markup)
   doc.css("div").each do |node|
     node.node_name = "section"
   end
+  doc.css("li").each do |node|
+    node['class']="fragment"
+  end
   doc.css("#content").inner_html
 end
+
 
 def slide_layout(title, body)
   <<MARKUP
