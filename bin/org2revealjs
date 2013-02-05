@@ -22,6 +22,9 @@ def transform_divs_into_sections(html_markup)
   doc.css("li").each do |node|
     node['class']="fragment"
   end
+  doc.css("pre").each do |node|
+    node['class']="fragment"
+  end
   doc.css("#content").inner_html
 end
 
