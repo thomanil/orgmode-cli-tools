@@ -103,6 +103,7 @@ def convert(orgfile_path)
   title = "" # TODO derive title from filename and|or org contents
   puts `org2html #{orgfile_path}`
   htmlfile_path = orgfile_path.gsub(".org", ".html")
+  htmldir_name = orgfile_path.gsub(".org", "")
   body = body(htmlfile_path)
   body = transform_divs_into_sections(body)
   body = slide_layout(title, body)
@@ -110,9 +111,10 @@ def convert(orgfile_path)
   # TODO use path of this file to find dir of template dir where gem is actually located
 
   gem_root_path = File.expand_path(File.dirname(__FILE__))+"/.."
-  `cp -r #{gem_root_path}/templates/reveal_js_template generated_slides`
-  File.open("generated_slides/index.html", 'w') { |file| file.write(body) }
+  `cp -r #{gem_root_path}/templates/reveal_js_template #{htmldir_name}_generated_slides`
+  File.open("#{htmldir_name}_generated_slides/index.html", 'w') { |file| file.write(body) }
   `rm #{htmlfile_path}`
+  return htmldir_name
 end
 
 if ARGV.length != 1
@@ -120,4 +122,7 @@ if ARGV.length != 1
   exit 1
 end
 
-convert(ARGV[0])
+htmldir_name = convert(ARGV[0])
+
+puts "\n\nSlides generated here:"
+puts  "#{htmldir_name}_generated_slides/index.html\n\n"
